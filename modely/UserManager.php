@@ -26,31 +26,31 @@ class UserManager {
     }
 
     public function registrace($data){
+        if (Db::dotazJeden("SELECT * FROM users WHERE user_name = ?", [$data["name"]])){
+            return [
+                "success" => false,
+                "error" => "Uživatelské jméno je už zabráno."
+            ];
+        }
+
+        if (Db::dotazJeden("SELECT * FROM users WHERE user_email = ?", [$data["email"]])){
+            return [
+                "success" => false,
+                "error" => "Email je už zabráný."
+            ];
+        }
+
         $sql = "
          INSERT INTO users (user_name, user_email, user_password) VALUES 
          (?, ?, crypt(?, gen_salt('md5')))
          RETURNING user_name, user_email, user_permissions
         ";
 
-        try {
-            $uzivatel = Db::dotazJeden($sql,
-                [
-                    $data["name"],
-                    $data["email"],
-                    $data["password"]
-                ]
-            );
-        } catch (PDOException $e){
-            if ($e->getCode() == 23505){
-                return [
-                    "success" => false,
-                    "error" => explode(')', explode('Key (', $e->getMessage())[1])[0]
-                ];
-            }
-            else {
-                throw $e;
-            }
-        }
+        $uzivatel = Db::dotazJeden($sql, [
+                $data["name"],
+                $data["email"],
+                $data["password"]
+        ]);
 
         if ($uzivatel) {
             $_SESSION["uzivatel"] = $uzivatel;
