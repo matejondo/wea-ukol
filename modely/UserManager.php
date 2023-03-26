@@ -44,7 +44,7 @@ class UserManager {
          INSERT INTO users (user_name, user_email, user_password) VALUES 
          (?, ?, crypt(?, gen_salt('md5')))
          RETURNING user_name, user_email, user_permissions
-        ";
+        "; // PostgreSQL dotaz
 
         $uzivatel = Db::dotazJeden($sql, [
                 $data["name"],
