@@ -1,0 +1,40 @@
+<h1>Body</h1>
+<div style="width: 50%">
+
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Vzdálenost</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php foreach ($body as $bod) { ?>
+
+            <tr>
+                <td><a href="point/<?= $bod->id ?>/detail"><?= $bod->id ?></a></td>
+                <td><?= $bod->x ?></td>
+                <td><?= $bod->y ?></td>
+                <td><?= round($bod->distanceOrigin(), 2) ?></td>
+            </tr>
+
+        <?php } ?>
+        </tbody>
+    </table>
+</div>
+<ul>
+
+
+</ul>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            searching: false,
+            pageLength: 5,
+            lengthMenu: [5, 10, 15, 20, 25]
+        });
+    });
+</script>

@@ -1,0 +1,24 @@
+<h1><?= $user["user_name"] ?></h1>
+
+<p>Uživatelské ID: <?= $user["user_id"] ?> </p>
+<p>Email: <?= $user["user_email"] ?></p>
+
+<?php
+    $userPermissions = Permissions::tryFrom($user["user_permissions"])
+?>
+
+<div style="max-width: 25%">
+    <form method="post">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Oprávnění</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="opravneni">
+                <?php foreach (Permissions::cases() as $case){ ?>
+                    <option value=<?= $case->value ?> <?= $case->value == $userPermissions->value ? 'selected' : ''?>>
+                        <?= $case->name ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Změnit oprávnění</button>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+<h2>Přihlášení uživatele</h2>
+
+<div style="width: 500px">
+    <form id="prihlas" class="prihlas" method="post">
+        <div class="form-group">
+            <label for="name">Uživatelské jméno</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Uživatelské jméno" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Heslo</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Heslo" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Přihlásit se</button>
+        <button type="button" id="registrace" class="btn btn-link">Registrace</button>
+    </form>
+</div>
+<script>
+    $("#registrace").on('click', function (){
+      window.location.href = "registrace"
+    })
+</script>

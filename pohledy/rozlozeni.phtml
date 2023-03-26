@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
+    <script src="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.js"></script>
+</head>
+<body>
+<nav id="navbar-example2" class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">Body</a>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Úvod</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="point">Body</a>
+        </li>
+        <?php if (!$this->prihlasenyUzivatel){ ?>
+            <li class="nav-item">
+                <a class="nav-link" href="login">Přihlásit se</a>
+            </li> <?php } else { ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <?= $this->prihlasenyUzivatel['user_email'] ?>
+                </a>
+                <div class="dropdown-menu">
+                    <?php if ($this->prihlasenyUzivatel["user_permissions"] == Permissions::Manager->value){ ?>
+                        <a class="dropdown-item" href="opravneni">Spravovat oprávnění</a>
+                    <?php } ?>
+                    <a class="dropdown-item" href="odhlaseni">Odhlásit se</a>
+                </div>
+            </li>
+        <?php } ?>
+    </ul>
+</nav>
+<div aria-live="polite" aria-atomic="true" style="float: right; min-height: 200px;">
+    <div style="position: absolute; top: 0; right: 0; margin-right: 10px; margin-top: 10px; min-width: 300px" id="toasts" class="toasts">
+
+    </div>
+</div>
+<div style="margin-left: 15px; margin-top: 15px">
+
+
+    <?php foreach ($zpravy as $zprava) {
+        if ($zprava["typ"] == "error"){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="max-width: 600px">
+                <?= $zprava['zprava'] ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php }
+        elseif ($zprava["typ"] == "ok"){ ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="max-width: 500px">
+                <?= $zprava['zprava'] ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php }
+    } ?>
+    <!-- Bootstrap Files -->
+
+    <?php
+    $this->kontroler->vypisPohled();
+    ?>
+</div>
+
+</body>
+</html>
